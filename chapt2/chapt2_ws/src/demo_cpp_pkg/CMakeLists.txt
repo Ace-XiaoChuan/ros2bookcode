@@ -11,11 +11,11 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-# 1.查找 rclcpp 头文件和库
+# 1.查找并导入 rclcpp 头文件和库，相当于python的import
 find_package(rclcpp REQUIRED)
-# 2. 添加可执行文件 cpp_node
+# 2. 添加可执行文件 cpp_node（指定源文件）
 add_executable(cpp_node src/cpp_node.cpp)
-# 3. 为 cpp_node 添加依赖
+# 3. 为 cpp_node 添加依赖，告诉 CMake，这个可执行文件需要依赖 rclcpp
 ament_target_dependencies(cpp_node rclcpp)
 
 add_executable(person_node src/person_node.cpp)
@@ -37,7 +37,7 @@ ament_target_dependencies(learn_function rclcpp)
 include_directories(include)
 add_executable(learn_thread src/learn_thread.cpp)
 ament_target_dependencies(learn_thread rclcpp)
-# 4. 将 cpp_node 拷贝到 install 目录
+# 4. 让 cpp_node 在 colcon build 安装时被自动拷贝到 install 目录中
 install(TARGETS
   cpp_node
   person_node
