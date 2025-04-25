@@ -21,6 +21,9 @@ class NovelPubNode(Node):
 
     def timer_callback(self):
         if self.novels_queue_.qsize() > 0: # 队列中有数据，取出发布一行
+
+            # String msg这么写在python是不行的，这是c++写法。Python 是动态类型语言，不需要指定类型
+            # msg = String() 不是在指定类型，String() 是String类的构造函数，调用后返回一个对象实例，并把它赋值给变量 msg
             msg = String() # 实例化一个消息
             msg.data = self.novels_queue_.get() # 对消息结构体进行赋值
             self.novel_publisher_.publish(msg) # 发布消息
