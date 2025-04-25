@@ -19,9 +19,14 @@ class NovelSubNode(Node):
         self.novels_queue_ = Queue()
         self.novel_subscriber_ = self.create_subscription(
             String, 'novel', self.novel_callback, 10)
+
+        # target 参数指定了 线程运行时要执行的函数。
+        # 也就是说，当你调用 self.speech_thread_.start() 时，线程就会去执行你传给 target 的函数 —— 本例中是 self.speak_thread()。
+        # 不要加括号！不加括号，只是传递函数对象本身，而不是调用函数！
         self.speech_thread_ = threading.Thread(target=self.speak_thread)
         self.speech_thread_.start()
 
+    # msg是 ROS 2 自动传入的一个消息对象，msg.data 就是发布者发来的字符串，比如 "你好，这是第一章小说"
     def novel_callback(self, msg):
         self.novels_queue_.put(msg.data)
 
