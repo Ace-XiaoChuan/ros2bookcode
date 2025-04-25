@@ -8,7 +8,13 @@ import espeakng
 
 
 class NovelSubNode(Node):
+
     def __init__(self, node_name):
+
+        # 这里注意：解释一下子类构造函数传参：
+        # class Node:
+        # def __init__(self, name: str, *, namespace: str = '', context: Context = None, ...):
+        # 其他参数大多数是高级用法，初学可以忽略
         super().__init__(node_name)
         self.novels_queue_ = Queue()
         self.novel_subscriber_ = self.create_subscription(
