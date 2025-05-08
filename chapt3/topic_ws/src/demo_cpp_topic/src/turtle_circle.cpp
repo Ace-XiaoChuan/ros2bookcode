@@ -19,13 +19,17 @@ timer_	    变量名，表示你创建的定时器指针
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_; // 发布者智能指针
 /*
 rclcpp	                        ROS 2 的命名空间
-Publisher<T>	                  表示要发布的消息类型是 T
+Publisher<T>	                  模板类，用于创建发布者对象（T 是消息类型）————C++ 本身没有专门的关键词来标记“模板类的实例”，你需要通过语法结构和上下文来判断。
+                                在 C++ 中，只有模板类或模板函数才会用到这种尖括号语法 <T> 来传入类型参数。template 关键字只在定义模板类或函数时才需要写。在使用模板类的时候（比如实例化、声明变量），
+                                是不需要写 template 关键字的
+
 <geometry_msgs::msg::Twist>	    发布的消息类型是 Twist，用于发送线速度和角速度
 SharedPtr	                      表示这个 Publisher 的共享智能指针类型
 publisher_	                    变量名，发布者指针
 */
 
 public:
+  //explicit[ɪkˈsplɪsɪt]明确的；作用是：防止构造函数发生隐式类型转换（implicit conversion）。
   explicit TurtleCircle(const std::string& node_name) : Node(node_name)
   {
   	// 调用继承而来的父类函数创建订阅者
