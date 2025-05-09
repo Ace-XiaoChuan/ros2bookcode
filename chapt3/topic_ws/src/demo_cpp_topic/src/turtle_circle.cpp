@@ -39,9 +39,13 @@ public:
   explicit TurtleCircle(const std::string& node_name) : Node(node_name)
   {
   	// 调用继承而来的父类函数创建订阅者
-    //
+    //this：当前对象的指针，这两个方法的参数详见工具书
     publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
     // 调用继承而来的父类函数创建定时器
+    // 为什么不直接传入回调函数，要用bind再包一层？
+    /*
+    
+    */
     timer_ = this->create_wall_timer(1000ms, std::bind(&TurtleCircle::timer_callback, this));
   }
 
