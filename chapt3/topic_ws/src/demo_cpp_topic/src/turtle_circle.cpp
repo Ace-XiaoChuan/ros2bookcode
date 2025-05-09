@@ -16,7 +16,8 @@ SharedPtr	  表示这个类的共享智能指针（shared pointer）类型
 timer_	    变量名，表示你创建的定时器指针
 */
 
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_; // 发布者智能指针
+  //publisher_ 加了一个尾部下划线 _，这是 一种命名习惯，用于标识类的成员变量。这种做法在 C++ 中非常常见，尤其是在大型项目或框架（比如 ROS 2）中。
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_; // 发布者智能指针，Publisher类的publisher_指针
 /*
 rclcpp	                        ROS 2 的命名空间
 Publisher<T>	                  模板类，用于创建发布者对象（T 是消息类型）————C++ 本身没有专门的关键词来标记“模板类的实例”，你需要通过语法结构和上下文来判断。
@@ -30,9 +31,15 @@ publisher_	                    变量名，发布者指针
 
 public:
   //explicit[ɪkˈsplɪsɪt]明确的；作用是：防止构造函数发生隐式类型转换（implicit conversion）。
+  //const std::string&，就不会复制，而是引用原来的字符串，更高效
+  //---
+  //关于Node(node_name):
+  //在构造 TurtleCircle 对象时，先调用父类 Node 的构造函数，把 node_name 传进去，完成父类的初始化。
+  //这是 C++ 中类继承时构造对象的标准做法:**父类必须先初始化，子类才能使用它的功能**
   explicit TurtleCircle(const std::string& node_name) : Node(node_name)
   {
   	// 调用继承而来的父类函数创建订阅者
+    //
     publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
     // 调用继承而来的父类函数创建定时器
     timer_ = this->create_wall_timer(1000ms, std::bind(&TurtleCircle::timer_callback, this));
